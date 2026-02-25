@@ -10,23 +10,23 @@
     </select>
 
     <insert id="insert">
-        insert into tbl_todo (title, dueDate, writer, finished) values ( #{title}, #{dueDate}, #{writer}, #{finished})
+        insert into spring_todo (title, dueDate, writer, finished) values ( #{title}, #{dueDate}, #{writer}, #{finished})
     </insert>
 
-    <select id="selectAll" resultType="com.busanit501.jsp_server_project1.springex_new_0219_keep.domain.TodoVO">
-        select * from tbl_todo order by tno desc
+    <select id="selectAll" resultType="com.busanit501.ljj980413.spring_todo.domain.TodoVO">
+        select * from spring_todo order by tno
     </select>
 
-    <select id="selectOne" resultType="com.busanit501.jsp_server_project1.springex_new_0219_keep.domain.TodoVO">
-        select * from tbl_todo where tno = #{tno}
+    <select id="selectOne" resultType="com.busanit501.ljj980413.spring_todo.domain.TodoVO">
+        select * from spring_todo where tno = #{tno}
     </select>
 
     <delete id="delete">
-        delete from tbl_todo where tno = #{tno}
+        delete from spring_todo where tno = #{tno}
     </delete>
 
     <update id="update">
-        update tbl_todo set title = #{title}, dueDate = #{dueDate}, finished = #{finished} where tno = #{tno}
+        update spring_todo set title = #{title}, dueDate = #{dueDate}, finished = #{finished} where tno = #{tno}
     </update>
 
 

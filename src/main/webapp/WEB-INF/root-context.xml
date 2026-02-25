@@ -15,6 +15,7 @@
     <!--    <bean class="com.busanit501.jsp_server_project1.springex_0212.sample._1_SampleDAO_0212"></bean>-->
     <!--    <bean class="com.busanit501.jsp_server_project1.springex_0212.sample._2_SampleService_0212"></bean>-->
 
+
 <!--    <context:component-scan base-package="com.busanit501.jsp_server_project1.springex_0213_keep.sample"/>-->
 
 <!--    데이터베이스 관련 설정 , 매번 타이핑 하는게 아니다. 설정 파일은 복사를 한다. 꼭 기억하기.-->
@@ -64,5 +65,8 @@
 
 <!--    <context:component-scan base-package="com.busanit501.jsp_server_project1.springex_new_0219_keep.config"/>-->
 <!--    <context:component-scan base-package="com.busanit501.jsp_server_project1.springex_new_0219_keep.service"/>-->
+    <context:component-scan base-package="com.busanit501.ljj980413.spring_todo.config"/>
+    <context:component-scan base-package="com.busanit501.ljj980413.spring_todo.service"/>
+
 
 </beans>
