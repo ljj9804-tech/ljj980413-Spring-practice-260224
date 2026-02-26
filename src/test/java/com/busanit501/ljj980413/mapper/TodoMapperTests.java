@@ -1,8 +1,10 @@
 package com.busanit501.ljj980413.mapper;
 
 import com.busanit501.ljj980413.spring_todo.domain.TodoVO;
+import com.busanit501.ljj980413.spring_todo.dto.PageRequestDTO;
 import com.busanit501.ljj980413.spring_todo.mapper.TodoMapper;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,4 +72,28 @@ public class TodoMapperTests {
         // 각자 데이터베이스에 있는 tno 번호 확인 후 , 테스트 진행하기.
         todoMapper.delete(3L);
     }
+
+    @Test
+    public void testSelectList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(5)
+                .build();
+
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+        voList.forEach(vo->log.info(vo));
+        Assertions.assertNotNull(voList);
+    }
+
+    @Test
+    public void testGetCount() {
+        // 전체 갯수 조회 테스트
+        int total = todoMapper.getCount(PageRequestDTO.builder().build());
+        log.info("전체 데이터 개수: " + total);
+
+        // 데이터가 최소 1개 이상은 있어야 함
+        Assertions.assertTrue(total > 0);
+    }
+
 }

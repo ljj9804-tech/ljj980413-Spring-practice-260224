@@ -84,6 +84,27 @@
                             </c:forEach>
                             </tbody>
                         </table>
+
+                        <div class="d-flex justify-content-center">
+                            <ul class="pagination flex-wrap">
+                                <c:if test="${responseDTO.prev}">
+                                    <li class="page-item">
+                                        <a class="page-link" data-num="${responseDTO.start - 1}">이전</a>
+                                    </li>
+                                </c:if>
+                                <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
+                                    <li class="page-item ${responseDTO.page == num ? "active" : ""}">
+                                        <a class="page-link" data-num="${num}">${num}</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${responseDTO.next}">
+                                    <li class="page-item">
+                                        <a class="page-link" data-num="${responseDTO.end + 1}">다음</a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>

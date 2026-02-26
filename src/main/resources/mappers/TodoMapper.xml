@@ -29,5 +29,13 @@
         update spring_todo set title = #{title}, dueDate = #{dueDate}, finished = #{finished} where tno = #{tno}
     </update>
 
+    <select id="selectList" resultType="com.busanit501.ljj980413.spring_todo.domain.TodoVO">
+        select * from spring_todo order by tno limit #{skip}, #{size}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(tno)
+        from spring_todo
+    </select>
 
 </mapper>

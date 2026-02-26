@@ -2,6 +2,7 @@ package com.busanit501.ljj980413.spring_todo.mapper;
 
 
 import com.busanit501.ljj980413.spring_todo.domain.TodoVO;
+import com.busanit501.ljj980413.spring_todo.dto.PageRequestDTO;
 
 import java.util.List;
 
@@ -23,4 +24,9 @@ public interface TodoMapper {
 
     //수정
     void update(TodoVO todoVO);
+
+    // 페이지네이션 처리가 된 목록 조회
+    List<TodoVO> selectList(PageRequestDTO pageRequestDTO);
+
+    int getCount(PageRequestDTO pageRequestDTO);
 }

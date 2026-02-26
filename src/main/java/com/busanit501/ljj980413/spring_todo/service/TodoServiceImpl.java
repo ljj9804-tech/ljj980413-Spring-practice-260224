@@ -1,6 +1,8 @@
 package com.busanit501.ljj980413.spring_todo.service;
 
 import com.busanit501.ljj980413.spring_todo.domain.TodoVO;
+import com.busanit501.ljj980413.spring_todo.dto.PageRequestDTO;
+import com.busanit501.ljj980413.spring_todo.dto.PageResponseDTO;
 import com.busanit501.ljj980413.spring_todo.dto.TodoDTO;
 import com.busanit501.ljj980413.spring_todo.mapper.TodoMapper;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +56,26 @@ public class TodoServiceImpl implements TodoService {
         // 여기서, 변환하기.
         TodoVO todoVO = modelMapper.map(todoDTO, TodoVO.class);
         todoMapper.update(todoVO);
+    }
+
+    @Override
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+        List<TodoDTO> dtoList = voList.stream()
+                .map(vo -> modelMapper.map(vo, TodoDTO.class))
+                .collect(Collectors.toList());
+
+        int total = todoMapper.getCount(pageRequestDTO);
+
+
+        PageResponseDTO<TodoDTO> pageResponseDTO = PageResponseDTO.<TodoDTO>withAll()
+                .dtoList(dtoList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+
+        return pageResponseDTO;
     }
 }

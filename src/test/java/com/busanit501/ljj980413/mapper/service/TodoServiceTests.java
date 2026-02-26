@@ -1,6 +1,8 @@
 package com.busanit501.ljj980413.mapper.service;
 
 
+import com.busanit501.ljj980413.spring_todo.dto.PageRequestDTO;
+import com.busanit501.ljj980413.spring_todo.dto.PageResponseDTO;
 import com.busanit501.ljj980413.spring_todo.dto.TodoDTO;
 import com.busanit501.ljj980413.spring_todo.service.TodoService;
 import lombok.extern.log4j.Log4j2;
@@ -65,6 +67,21 @@ public class TodoServiceTests {
     @Test
     public void testDeleteOne() {
         todoService.remove(6L);
+    }
+
+    @Test
+    public void testPaging() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(11)
+                .size(10)
+                .build();
+        PageResponseDTO<TodoDTO> pageResponseDTO = todoService.getList(pageRequestDTO);
+        pageResponseDTO.getDtoList().stream().forEach(dtoDTO -> log.info(dtoDTO));
+        log.info("total : " + pageResponseDTO.getTotal());
+        log.info("start : " + pageResponseDTO.getStart());
+        log.info("end : " + pageResponseDTO.getEnd());
+
     }
 
 }
