@@ -1,6 +1,8 @@
 package com.busanit501.ljj980413.spring_todo.controller;
 
 
+import com.busanit501.ljj980413.spring_todo.dto.PageRequestDTO;
+import com.busanit501.ljj980413.spring_todo.dto.PageResponseDTO;
 import com.busanit501.ljj980413.spring_todo.dto.TodoDTO;
 import com.busanit501.ljj980413.spring_todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 // http://localhost:9090/todo/
@@ -25,19 +26,41 @@ public class TodoController {
 
     private final TodoService todoService;
 
+//    @RequestMapping("/list")
+//    public void list(Model model) {
+//        log.info("todo list...");
+//        List<TodoDTO> dtoList = todoService.getAll();
+//        model.addAttribute("dtoList",dtoList);
+//    }
+
     @RequestMapping("/list")
-    public void list(Model model) {
-        log.info("todo list...");
-        List<TodoDTO> dtoList = todoService.getAll();
-        model.addAttribute("dtoList",dtoList);
+    //  스프링에서는 기본적으로 매개변수의 클래스 타입을 화면으로 전달함: PageRequestDTO pageRequestDTO
+    public void list(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult,
+                     Model model) {
+        log.info("pageRequestDTO : " + pageRequestDTO);
+        log.info("todo list...페이징 처리가 된 리스트 조회");
+        // 유효성 체크에 걸린다면
+        if(bindingResult.hasErrors()) {
+            // 잠시 대기. 추후 작업 할 예정.
+            pageRequestDTO = PageRequestDTO.builder().build();
+            log.info("유효성 검사. hasErrors..");
+        }
+
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+        // 서버 -> 화면에 데이터 목록들을 전달. 박스 이름 : responseDTO, 내용물: DB에서 받아온 목록들
+        model.addAttribute("responseDTO",responseDTO);
     }
 
+
+
+
     @GetMapping({"/read", "/modify"})
-    public void read(Long tno, Model model) {
+    public void read(Long tno, PageRequestDTO pageRequestDTO, Model model) {
         log.info("todo read...");
         TodoDTO todoDTO = todoService.getOne(tno);
         // 서버 -> 화면에 데이터 목록들을 전달. 박스 이름 : dto, 내용물: DB에서 받아온 목록들
-        model.addAttribute("dto",todoDTO);
+        model.addAttribute("dto", todoDTO);
+
     }
 
     @PostMapping("/delete")

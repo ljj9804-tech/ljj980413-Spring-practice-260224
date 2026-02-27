@@ -89,7 +89,7 @@
                                 ${dto.finished? "checked" :""}>
                             </div>
                             <div>
-                                <button class="btn btn btn-danger" type="button">삭제하기</button>
+                                <button class="btn btn-danger" type="button">삭제하기</button>
                                 <button class="btn btn-primary" type="button">수정하기</button>
                                 <button class="btn btn-secondary" type="button">목록가기</button>
                             </div>
@@ -97,7 +97,7 @@
                         <script>
                             //목록가기
                             document.querySelector(".btn-secondary").addEventListener("click", function (e) {
-                                    self.location = "/todo/list"
+                                    self.location = `/todo/list?${pageRequestDTO.link}`
                                 }, false
                             )
 

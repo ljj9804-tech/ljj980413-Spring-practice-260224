@@ -90,12 +90,12 @@
                         <script>
                             //목록가기
                             document.querySelector(".btn-secondary").addEventListener("click", function (e) {
-                                self.location = "/todo/list"
+                                self.location = "/todo/list?${pageRequestDTO.link}"
                                 },false
                             )
                             //수정폼 가기.
                             document.querySelector(".btn-primary").addEventListener("click", function (e) {
-                                    self.location = "/todo/modify?tno=" + ${dto.tno}
+                                    self.location = `/todo/modify?tno=${dto.tno}&${pageRequestDTO.link}`
                                 },false
                             )
                         </script>
@@ -122,6 +122,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+<script>
+    console.log("현재 전달된 링크 정보: ", "${pageRequestDTO.link}");
+
+    document.querySelector(".btn-secondary").addEventListener("click", function (e) {
+        const link = "${pageRequestDTO.link}";
+        if(!link) {
+            alert("페이지 정보가 유실되었습니다! 컨트롤러를 확인하세요.");
+        }
+        self.location = "/todo/list?" + link;
+    }, false);
+</script>
 
 </body>
 </html>

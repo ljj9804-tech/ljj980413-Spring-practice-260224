@@ -56,6 +56,50 @@
                         전체목록
                     </div>
                     <div class="card-body">
+<%--                        <form action="/todo/list" method="get">--%>
+<%--                            <input type="hidden" name="size" value="${pageRequestDTO.size}">--%>
+<%--                            <input type="hidden" name="page" value="${pageRequestDTO.page}">--%>
+<%--                            <div class="mb-3">--%>
+<%--                                <input type="checkbox" name="finished"--%>
+<%--                                ${pageRequestDTO.finished ? "checked" : ""}--%>
+<%--                                > 완료여부--%>
+<%--                            </div>--%>
+<%--                            <div class="mb-3">--%>
+<%--                                <input type="checkbox" name="types" value="t"--%>
+<%--                                ${pageRequestDTO.checkType("t") ? "checked" : ""}--%>
+<%--                                > 제목--%>
+<%--                                <input type="checkbox" name="types" value="w"--%>
+<%--                                ${pageRequestDTO.checkType("w") ? "checked" : ""}--%>
+<%--                                > 작성자--%>
+<%--                                &lt;%&ndash;                                c:out ,출력시, 검색어, 불필요한 자바스크립트 태그가 들어가면 보안상, 안좋으므로 &ndash;%&gt;--%>
+<%--                                &lt;%&ndash;                                안전한 출력을 선택&ndash;%&gt;--%>
+<%--                                <input type="text" name="keyword" class="form-control"--%>
+<%--                                       value='<c:out value="${pageRequestDTO.keyword}"/>'--%>
+<%--                                >--%>
+<%--                            </div>--%>
+<%--                            <div class="mb-3 input-group dueDateDiv">--%>
+<%--                                <input type="date" name="from" class="form-control"--%>
+<%--                                       value="${pageRequestDTO.from}"--%>
+<%--                                >--%>
+<%--                                <input type="date" name="to" class="form-control"--%>
+<%--                                       value="${pageRequestDTO.to}"--%>
+<%--                                >--%>
+<%--                            </div>--%>
+<%--                            <div class="mb-3 input-group">--%>
+<%--                                <div class="float-end">--%>
+<%--                                    <button type="submit"  class="btn btn-primary">검색하기</button>--%>
+<%--                                    <button type="reset" class="btn btn-info clearBtn">초기화하기</button>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <script>--%>
+<%--                                document.querySelector(".clearBtn").addEventListener("click", function (e){--%>
+<%--                                    e.preventDefault()--%>
+<%--                                    e.stopPropagation()--%>
+<%--                                    self.location = `/todo/list`--%>
+<%--                                })--%>
+<%--                            </script>--%>
+
+<%--                        </form>--%>
                         <table class="table">
                             <thead>
                             <tr>
@@ -67,20 +111,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${dtoList}" var="dto">
+<%--                            <c:forEach items="${dtoList}" var="dto">--%>
 <%--                            responseDTO.dtoList 호출하는 것은 responseDTO의 getter 를 호출하는 효과와 동일--%>
-<%--                        <c:forEach items="${responseDTO.dtoList}" var="dto">--%>
-                                <tr>
-                                    <th><c:out value="${dto.tno}"/></th>
-                                    <td>
-                                        <a href="/todo/read?tno=${dto.tno}" class="text-decoration-none">
-                                            <c:out value="${dto.title}"/>
-                                        </a>
-                                    </td>
-                                    <td><c:out value="${dto.writer}"/></td>
-                                    <td><c:out value="${dto.dueDate}"/></td>
-                                    <td><c:out value="${dto.finished}"/></td>
-                                </tr>
+                        <c:forEach items="${responseDTO.dtoList}" var="dto">
+                            <tr>
+                                <th><c:out value="${dto.tno}"/></th>
+                                <td>
+                                    <a href="/todo/read?tno=${dto.tno}&${pageRequestDTO.link}"
+                                    class="text-decoration-none">
+                                        <c:out value="${dto.title}"/>
+                                    </a>
+                                </td>
+                                <td><c:out value="${dto.writer}"/></td>
+                                <td><c:out value="${dto.dueDate}"/></td>
+                                <td><c:out value="${dto.finished}"/></td>
+                            </tr>
                             </c:forEach>
                             </tbody>
                         </table>
@@ -104,6 +149,30 @@
                                 </c:if>
                             </ul>
                         </div>
+                        <script>
+                            // document.querySelector(".pagination") -> <ul>태그를 의미,
+                            // <ul>태그 를 포함해서, 하위에 어떤 태그, <li>, <a> 태그도 있다.
+                            document.querySelector(".pagination").addEventListener("click", function (e) {
+                                e.preventDefault(); // 기본 동작 막기
+                                e.stopPropagation(); // 부모 요소 전팍 막기, 해당 요소외에는 클릭을 감지 안하겠다.
+                                const target = e.target //클릭한 <li>, <a> 태그 요소 의미,
+                                if (target.tagName !== 'A') {
+                                    return // 이벤트 처리 동작을 안하고, 그냥 나가겠다.
+                                }
+                                // <a>태그만 이벤트 처리를 하겠다.
+                                // <a class="page-link" data-num=""
+                                const num = target.getAttribute("data-num")
+
+                                // 기존 정보는 단순, 페이지 정보만 유지한 채 이동했고,
+                                self.location = `/todo/list?page=\${num}&size=${pageRequestDTO.size}`;
+
+                                // 검색착 폼 태그를 이용해서, 서버에, 검색, 필터 준비물 같이 전달.
+                                // 물론, 페이지, 사이즈 정보도 같이 전달.  히든으로 페이지, 사이즈 전달.
+                                // 폼 방식으로 만 서버에 전달하면, 1) 검색, 필터 준비물 + 2) 페이지 정보, 사이즈 정보 같이 전달.
+                                // const formObj = document.querySelector("form")
+                                formObj.submit()
+                            }, false)
+                        </script>
 
                     </div>
                 </div>
